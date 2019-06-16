@@ -11,5 +11,5 @@ public @interface AJSplit {
 	/**
 	 * Number of threads to create
 	 */
-	public int cores() default 1;
+	public int jobs() default 0;
 }
