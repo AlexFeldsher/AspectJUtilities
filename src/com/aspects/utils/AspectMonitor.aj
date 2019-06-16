@@ -1,7 +1,6 @@
 package com.aspects.utils;
-import com.aspects.annotations.*;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Monitor methods runtime and number of calls
@@ -12,14 +11,13 @@ public aspect AspectMonitor {
 	private static final int TOTAL_TIME = 1;
 	private static final int NUMBER_OF_CALLS = 2;
 	
-	private static final HashMap<String, long[]> runtime = new HashMap<String, long[]>();
+	private static final ConcurrentHashMap<String, long[]> runtime = new ConcurrentHashMap<String, long[]>();
 	
 	pointcut mainMethod(): execution(public static void main(String[]));
-	pointcut methodCall(): execution(* *(..));
+	pointcut methodCall(): call(* *.*(..)) && !within(Aspect*);
 	pointcut systemExit(): call(* System.exit(..));
 	
 	before(): methodCall() || mainMethod() {
-		//System.out.println(thisEnclosingJoinPointStaticPart.getSignature().toString());
 		String key = thisJoinPointStaticPart.getSignature().toString();
 
 		long start = System.nanoTime();
