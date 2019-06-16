@@ -33,7 +33,6 @@ public abstract aspect AspectAbstractSplit<T> {
 	    if (numJobs == 0) {
 	    	numJobs = Runtime.getRuntime().availableProcessors();
 	    }
-	    System.out.println("Number of cores " + numJobs);
 	    
 	    for (int i = 0; i < numJobs; i++) {
 	    	int start = i*t.length/numJobs;
@@ -69,7 +68,6 @@ public abstract aspect AspectAbstractSplit<T> {
 	    if (numJobs == 0) {
 	    	numJobs = Runtime.getRuntime().availableProcessors();
 	    }
-	    System.out.println("Number of cores " + numJobs);
 	    
 	    for (int i = 0; i < numJobs; i++) {
 	    	int start = i*array.length/numJobs;
