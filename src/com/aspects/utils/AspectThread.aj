@@ -11,14 +11,14 @@ public aspect AspectThread {
 	@AJLock
 	private static ArrayList<Thread> threads = new ArrayList<>();
 
-	pointcut thread(Object[] args): @annotation(AJThread) && args(args) && call(void *.*(..));
-	pointcut simpleThread(): @annotation(AJThread) && call(void com.test.main.*.*());
+	pointcut thread(Object arg): @annotation(AJThread) && args(arg,..) && execution(void *.*(..));
+	pointcut noArgThread(): @annotation(AJThread) && call(void *.*());
 	
-	void around(Object[] args): thread(args) {
+	void around(Object arg): thread(arg) {
 		Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
-				proceed(args);
+				proceed(arg);
 			}
 		};
 		Thread t = new Thread(runnable);
@@ -26,7 +26,7 @@ public aspect AspectThread {
 		threads.add(t);
 	}
 	
-	void around(): simpleThread() {
+	void around(): noArgThread() {
 		Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
